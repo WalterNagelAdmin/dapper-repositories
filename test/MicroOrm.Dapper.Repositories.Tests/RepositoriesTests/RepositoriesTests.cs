@@ -801,5 +801,22 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             var users5 = (await _db.Users.FindAllAsync(x => x.Name.StartsWith("est"))).ToArray();
             Assert.True(users5.Length <= 0);
         }
+
+        [Fact]
+        public async Task Check_Incorrect_Syntax()
+        {
+            const int id = 15;
+
+            await _db.MyTable.InsertAsync(new MyTable()
+            {
+                Id = id,
+                Public = true
+            });
+
+            var fromdb = await _db.MyTable.FindByIdAsync(id);
+
+            Assert.Equal(id, fromdb.Id);
+            Assert.True(fromdb.Public);
+        }
     }
 }

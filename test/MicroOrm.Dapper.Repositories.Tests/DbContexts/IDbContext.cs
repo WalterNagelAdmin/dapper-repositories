@@ -16,5 +16,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.DbContexts
         IDapperRepository<Report> Reports { get; }
         
         IDapperRepository<Phone> Phones { get; }
+
+        IDapperRepository<MyTable> MyTable { get; }
     }
 }

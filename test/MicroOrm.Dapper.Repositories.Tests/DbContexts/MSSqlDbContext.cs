@@ -18,6 +18,8 @@ namespace MicroOrm.Dapper.Repositories.Tests.DbContexts
 
         private IDapperRepository<Phone> _phones;
 
+        private IDapperRepository<MyTable> _myTable;
+
         public MsSqlDbContext(string connectionString)
             : base(new SqlConnection(connectionString))
         {
@@ -34,5 +36,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.DbContexts
         public IDapperRepository<Report> Reports => _reports ?? (_reports = new DapperRepository<Report>(Connection));
         
         public IDapperRepository<Phone> Phones => _phones ?? (_phones = new DapperRepository<Phone>(Connection));
+
+        public IDapperRepository<MyTable> MyTable => _myTable ?? (_myTable = new DapperRepository<MyTable>(Connection));
     }
 }
