@@ -10,6 +10,6 @@ namespace MicroOrm.Dapper.Repositories.Tests.Classes
         [Column("MyTableId")]
         public long Id { get; set; }
 
-        public bool Public { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

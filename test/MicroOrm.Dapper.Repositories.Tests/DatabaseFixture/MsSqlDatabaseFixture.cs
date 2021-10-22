@@ -49,7 +49,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.DatabaseFixture
                 @"CREATE TABLE DAB.Phones (Id int IDENTITY(1,1) not null, Number varchar(256) not null, IsActive bit not null, Code varchar(256) not null, PRIMARY KEY (Id))");
 
             Db.Connection.Execute(
-                @"CREATE TABLE MyTable (MyTableId bigint not null, Public bit null, PRIMARY KEY (MyTableId))");
+                @"CREATE TABLE MyTable (MyTableId bigint not null, IsPublic bit null, PRIMARY KEY (MyTableId))");
 
             InitData.Execute(Db);
         }

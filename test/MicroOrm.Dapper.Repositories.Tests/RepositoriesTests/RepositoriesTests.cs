@@ -810,13 +810,13 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             await _db.MyTable.InsertAsync(new MyTable()
             {
                 Id = id,
-                Public = true
+                IsPublic = true
             });
 
             var fromdb = await _db.MyTable.FindByIdAsync(id);
 
             Assert.Equal(id, fromdb.Id);
-            Assert.True(fromdb.Public);
+            Assert.True(fromdb.IsPublic);
         }
     }
 }
