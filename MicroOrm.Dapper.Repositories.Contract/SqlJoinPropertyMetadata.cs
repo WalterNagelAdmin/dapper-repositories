@@ -1,7 +1,8 @@
-﻿using System.Reflection;
-using MicroOrm.Dapper.Repositories.Attributes.Joins;
+using System.Reflection;
+using System;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
 
-namespace MicroOrm.Dapper.Repositories.SqlGenerator
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
     /// <summary>
     /// </summary>

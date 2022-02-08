@@ -1,6 +1,7 @@
 using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
-namespace MicroOrm.Dapper.Repositories.Config
+namespace MicroOrm.Dapper.Repositories.Contact.Config
 {
     /// <summary>
     /// This class is used to support dependency injection

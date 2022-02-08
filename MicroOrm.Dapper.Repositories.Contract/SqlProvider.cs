@@ -1,4 +1,4 @@
-namespace MicroOrm.Dapper.Repositories.SqlGenerator
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
     // ReSharper disable InconsistentNaming
     /// <summary>

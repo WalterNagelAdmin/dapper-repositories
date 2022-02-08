@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace MicroOrm.Dapper.Repositories.Attributes.LogicalDelete
+namespace MicroOrm.Dapper.Repositories.Contract.Attributes.LogicalDelete
 {
     /// <inheritdoc />
     /// <summary>

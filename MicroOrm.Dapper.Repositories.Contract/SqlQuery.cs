@@ -1,6 +1,6 @@
-﻿using System.Text;
+using System.Text;
 
-namespace MicroOrm.Dapper.Repositories.SqlGenerator
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
     /// <summary>
     ///     A object with the generated sql and dynamic params.

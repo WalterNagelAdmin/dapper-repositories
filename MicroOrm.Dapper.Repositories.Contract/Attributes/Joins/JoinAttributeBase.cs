@@ -1,7 +1,8 @@
-using System;
-using MicroOrm.Dapper.Repositories.Config;
+using MicroOrm.Dapper.Repositories.Contact.Config;
 
-namespace MicroOrm.Dapper.Repositories.Attributes.Joins
+using System;
+
+namespace MicroOrm.Dapper.Repositories.Contract.Attributes.Joins
 {
     /// <inheritdoc />
     /// <summary>

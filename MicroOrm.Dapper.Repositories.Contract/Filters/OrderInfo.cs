@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MicroOrm.Dapper.Repositories.SqlGenerator.Filters
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
 {
     /// <summary>
     ///     Query order info

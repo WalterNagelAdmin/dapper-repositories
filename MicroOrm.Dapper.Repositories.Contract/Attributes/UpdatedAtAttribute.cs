@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace MicroOrm.Dapper.Repositories.Attributes
+namespace MicroOrm.Dapper.Repositories.Contract.Attributes
 {
     /// <inheritdoc />
     /// <summary>

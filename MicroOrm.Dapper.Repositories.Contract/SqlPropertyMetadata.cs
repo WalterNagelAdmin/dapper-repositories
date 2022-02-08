@@ -1,9 +1,10 @@
+using MicroOrm.Dapper.Repositories.Contract.Attributes;
+
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using MicroOrm.Dapper.Repositories.Attributes;
 
-namespace MicroOrm.Dapper.Repositories.SqlGenerator
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
     /// <summary>
     ///     Metadata from PropertyInfo

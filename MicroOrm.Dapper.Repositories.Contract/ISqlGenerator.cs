@@ -1,10 +1,11 @@
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
+
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Filters;
 
-namespace MicroOrm.Dapper.Repositories.SqlGenerator
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
     /// <summary>
     ///     Universal SqlGenerator for Tables

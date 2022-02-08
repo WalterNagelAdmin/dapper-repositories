@@ -1,4 +1,4 @@
-namespace MicroOrm.Dapper.Repositories.SqlGenerator.Filters
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
 {
     /// <summary>
     /// Limit settings

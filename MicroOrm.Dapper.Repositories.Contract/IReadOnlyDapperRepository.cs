@@ -4,9 +4,10 @@ using System.Data;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Filters;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
 
-namespace MicroOrm.Dapper.Repositories
+namespace MicroOrm.Dapper.Repositories.Contract
 {
     /// <summary>
     ///     interface for read only repository
