@@ -9,7 +9,7 @@ using System.Text;
 using MicroOrm.Dapper.Repositories.Extensions;
 
 [assembly: InternalsVisibleTo("MicroOrm.Dapper.Repositories.Tests")]
-
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     internal static class ExpressionHelper

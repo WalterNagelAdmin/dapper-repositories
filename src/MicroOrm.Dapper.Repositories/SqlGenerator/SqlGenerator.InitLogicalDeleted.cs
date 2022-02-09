@@ -1,10 +1,11 @@
+using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.LogicalDelete;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MicroOrm.Dapper.Repositories.Attributes.Joins;
-using MicroOrm.Dapper.Repositories.Attributes.LogicalDelete;
-
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

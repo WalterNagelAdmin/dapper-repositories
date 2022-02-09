@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using Dapper;
 using MicroOrm.Dapper.Repositories.Extensions;
 using MicroOrm.Dapper.Repositories.SqlGenerator;
-
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories
 {
     /// <summary>

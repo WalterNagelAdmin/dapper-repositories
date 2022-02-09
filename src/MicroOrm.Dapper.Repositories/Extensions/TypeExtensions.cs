@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 
-using MicroOrm.Dapper.Repositories.Attributes;
+using MicroOrm.Dapper.Repositories.Contract.Attributes;
 using MicroOrm.Dapper.Repositories.SqlGenerator;
-
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.Extensions
 {
     internal static class TypeExtensions

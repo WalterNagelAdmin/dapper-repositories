@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
 namespace MicroOrm.Dapper.Repositories
 {

@@ -1,5 +1,8 @@
 using System.Data;
+
+using MicroOrm.Dapper.Repositories.Contract;
 using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
 namespace MicroOrm.Dapper.Repositories
 {

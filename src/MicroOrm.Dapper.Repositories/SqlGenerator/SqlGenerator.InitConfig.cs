@@ -1,5 +1,7 @@
-using System;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
+using System;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

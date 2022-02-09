@@ -1,9 +1,11 @@
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Filters;
-
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

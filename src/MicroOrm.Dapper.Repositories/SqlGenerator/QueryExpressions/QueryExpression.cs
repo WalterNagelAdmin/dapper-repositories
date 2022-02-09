@@ -1,5 +1,6 @@
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
 {
+#pragma warning disable
     /// <summary>
     /// Abstract Query Expression
     /// </summary>

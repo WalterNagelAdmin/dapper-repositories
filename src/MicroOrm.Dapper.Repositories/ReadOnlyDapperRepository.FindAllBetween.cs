@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper;
-
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories
 {
     /// <summary>

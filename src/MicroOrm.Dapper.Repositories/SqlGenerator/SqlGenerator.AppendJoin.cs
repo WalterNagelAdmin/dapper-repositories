@@ -4,11 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using MicroOrm.Dapper.Repositories.Attributes.Joins;
-using MicroOrm.Dapper.Repositories.Attributes.LogicalDelete;
-using MicroOrm.Dapper.Repositories.Config;
-using MicroOrm.Dapper.Repositories.Extensions;
 
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.LogicalDelete;
+using MicroOrm.Dapper.Repositories.Extensions;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

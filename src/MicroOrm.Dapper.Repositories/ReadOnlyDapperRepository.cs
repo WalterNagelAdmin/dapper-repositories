@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
-using MicroOrm.Dapper.Repositories.Config;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Filters;
 
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories
 {
     /// <summary>

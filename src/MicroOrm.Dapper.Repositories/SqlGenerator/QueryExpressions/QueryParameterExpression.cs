@@ -1,5 +1,6 @@
-﻿namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
+namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
 {
+#pragma warning disable
     /// <inheritdoc />
     /// <summary>
     /// Class that models the data structure in coverting the expression tree into SQL and Params.

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Reflection;
-using MicroOrm.Dapper.Repositories.Config;
-
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+#pragma warning disable 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

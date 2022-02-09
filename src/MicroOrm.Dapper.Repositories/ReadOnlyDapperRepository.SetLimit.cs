@@ -1,4 +1,5 @@
-using MicroOrm.Dapper.Repositories.SqlGenerator.Filters;
+using MicroOrm.Dapper.Repositories.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
 
 namespace MicroOrm.Dapper.Repositories
 {
