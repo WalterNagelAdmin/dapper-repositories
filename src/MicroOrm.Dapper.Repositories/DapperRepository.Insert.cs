@@ -50,7 +50,7 @@ namespace MicroOrm.Dapper.Repositories
             return await Connection.ExecuteAsync(queryResult.GetSql(), instance, transaction) > 0;
         }
 
-        private bool SetValue(long newId, TEntity instance)
+        protected bool SetValue(long newId, TEntity instance)
         {
             var added = newId > 0;
             if (added)
