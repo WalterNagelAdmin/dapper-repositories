@@ -9,7 +9,7 @@ using MicroOrm.Dapper.Repositories.SqlGenerator;
 namespace MicroOrm.Dapper.Repositories.Contract
 {
     /// <summary>
-    ///     interface for repository
+    /// interface for repository
     /// </summary>
     public interface IDapperRepository<TEntity> : IReadOnlyDapperRepository<TEntity> where TEntity : class
     {
