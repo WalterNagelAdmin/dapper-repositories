@@ -1,7 +1,5 @@
 using MicroOrm.Dapper.Repositories.Contact.Config;
 
-using System;
-
 namespace MicroOrm.Dapper.Repositories.Contract.Attributes.Joins
 {
     /// <inheritdoc />
@@ -34,9 +32,19 @@ namespace MicroOrm.Dapper.Repositories.Contract.Attributes.Joins
         }
 
         /// <summary>
-        /// Join attribute string
+        ///     Key of external table
         /// </summary>
-        private string JoinAttribute { get; }
+        public string ExternalKey { get; set; }
+
+        /// <summary>
+        ///     ForeignKey of this table
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
+        ///     Table abbreviation override
+        /// </summary>
+        public string TableAlias { get; set; }
 
         /// <summary>
         ///     Name of external table
@@ -49,19 +57,9 @@ namespace MicroOrm.Dapper.Repositories.Contract.Attributes.Joins
         public string TableSchema { get; set; }
 
         /// <summary>
-        ///     ForeignKey of this table
+        /// Join attribute string
         /// </summary>
-        public string Key { get; set; }
-
-        /// <summary>
-        ///     Key of external table
-        /// </summary>
-        public string ExternalKey { get; set; }
-
-        /// <summary>
-        ///     Table abbreviation override
-        /// </summary>
-        public string TableAlias { get; set; }
+        private string JoinAttribute { get; }
 
         /// <summary>
         ///     Convert to string

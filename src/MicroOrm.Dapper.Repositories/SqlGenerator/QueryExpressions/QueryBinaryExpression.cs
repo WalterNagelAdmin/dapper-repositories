@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
 {
     /// <inheritdoc />

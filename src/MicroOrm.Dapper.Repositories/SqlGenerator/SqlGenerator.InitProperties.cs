@@ -1,3 +1,9 @@
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.Contract.Attributes;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
+using MicroOrm.Dapper.Repositories.Extensions;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -5,18 +11,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 
-using MicroOrm.Dapper.Repositories.Contact.Config;
-using MicroOrm.Dapper.Repositories.Contract.Attributes;
-using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
-using MicroOrm.Dapper.Repositories.Extensions;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-#pragma warning disable 
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
     public partial class SqlGenerator<TEntity>
         where TEntity : class
     {
+        /// <summary>
+        ///     Get join/nested properties
+        /// </summary>
+        /// <returns></returns>
+        private static SqlJoinPropertyMetadata[] GetJoinPropertyMetadata(PropertyInfo[] joinPropertiesInfo)
+        {
+            // Filter and get only non collection nested properties
+            var singleJoinTypes = joinPropertiesInfo.Where(p => !p.PropertyType.IsConstructedGenericType).ToArray();
+
+            var joinPropertyMetadatas = new List<SqlJoinPropertyMetadata>();
+
+            foreach (var propertyInfo in singleJoinTypes)
+            {
+                var joinInnerProperties = propertyInfo.PropertyType.GetProperties().Where(q => q.CanWrite)
+                    .Where(ExpressionHelper.GetPrimitivePropertiesPredicate());
+                joinPropertyMetadatas.AddRange(joinInnerProperties.Where(p => !p.GetCustomAttributes<NotMappedAttribute>().Any())
+                    .Select(p => new SqlJoinPropertyMetadata(propertyInfo, p)).ToArray());
+            }
+
+            return joinPropertyMetadatas.ToArray();
+        }
+
         private void InitProperties()
         {
             var entityType = typeof(TEntity);
@@ -56,28 +80,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                 UpdatedAtProperty = dateChangedProperty;
                 UpdatedAtPropertyMetadata = new SqlPropertyMetadata(UpdatedAtProperty);
             }
-        }
-
-        /// <summary>
-        ///     Get join/nested properties
-        /// </summary>
-        /// <returns></returns>
-        private static SqlJoinPropertyMetadata[] GetJoinPropertyMetadata(PropertyInfo[] joinPropertiesInfo)
-        {
-            // Filter and get only non collection nested properties
-            var singleJoinTypes = joinPropertiesInfo.Where(p => !p.PropertyType.IsConstructedGenericType).ToArray();
-
-            var joinPropertyMetadatas = new List<SqlJoinPropertyMetadata>();
-
-            foreach (var propertyInfo in singleJoinTypes)
-            {
-                var joinInnerProperties = propertyInfo.PropertyType.GetProperties().Where(q => q.CanWrite)
-                    .Where(ExpressionHelper.GetPrimitivePropertiesPredicate());
-                joinPropertyMetadatas.AddRange(joinInnerProperties.Where(p => !p.GetCustomAttributes<NotMappedAttribute>().Any())
-                    .Select(p => new SqlJoinPropertyMetadata(propertyInfo, p)).ToArray());
-            }
-
-            return joinPropertyMetadatas.ToArray();
         }
     }
 }

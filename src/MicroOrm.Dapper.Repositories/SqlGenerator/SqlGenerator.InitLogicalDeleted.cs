@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
@@ -33,7 +35,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
 
                 JoinsLogicalDelete.Add(joinAttr.TableName, deleteAttr);
             }
-
 
             if (statusProperty == null)
                 return;

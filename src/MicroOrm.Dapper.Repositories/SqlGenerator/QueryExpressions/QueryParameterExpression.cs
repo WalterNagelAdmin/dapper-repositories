@@ -1,6 +1,7 @@
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
 {
 #pragma warning disable
+
     /// <inheritdoc />
     /// <summary>
     /// Class that models the data structure in coverting the expression tree into SQL and Params.
@@ -32,10 +33,10 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions
             NestedProperty = nestedProperty;
         }
 
+        public bool NestedProperty { get; set; }
         public string PropertyName { get; set; }
         public object PropertyValue { get; set; }
         public string QueryOperator { get; set; }
-        public bool NestedProperty { get; set; }
 
         public override string ToString()
         {

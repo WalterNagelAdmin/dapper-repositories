@@ -27,14 +27,14 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         }
 
         /// <summary>
-        ///     SqlBuilder
-        /// </summary>
-        public StringBuilder SqlBuilder { get; }
-
-        /// <summary>
         ///     Gets the param
         /// </summary>
         public object Param { get; private set; }
+
+        /// <summary>
+        ///     SqlBuilder
+        /// </summary>
+        public StringBuilder SqlBuilder { get; }
 
         /// <summary>
         ///     Gets the SQL.

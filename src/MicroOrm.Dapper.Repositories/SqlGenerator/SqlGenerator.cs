@@ -1,8 +1,11 @@
-using System.Collections.Generic;
-using System.Reflection;
 using MicroOrm.Dapper.Repositories.Contact.Config;
 using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-#pragma warning disable 
+
+using System.Collections.Generic;
+using System.Reflection;
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
@@ -20,14 +23,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                 UseQuotationMarks = Provider != SqlProvider.SQLite && MicroOrmConfig.UseQuotationMarks;
 
             Initialize();
-        }
-
-        private void Initialize()
-        {
-            // Order is important
-            InitProperties();
-            InitConfig();
-            InitLogicalDeleted();
         }
 
         /// <summary>
@@ -50,15 +45,12 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
             Initialize();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public SqlProvider Provider { get; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool? UseQuotationMarks { get; set; }
+        private enum QueryType
+        {
+            Select,
+            Delete,
+            Update
+        }
 
         /// <inheritdoc />
         public PropertyInfo[] AllProperties { get; protected set; }
@@ -67,13 +59,36 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
         public bool HasUpdatedAt => UpdatedAtProperty != null;
 
         /// <inheritdoc />
-        public PropertyInfo UpdatedAtProperty { get; protected set; }
-
-        /// <inheritdoc />
-        public SqlPropertyMetadata UpdatedAtPropertyMetadata { get; protected set; }
+        public SqlPropertyMetadata IdentitySqlProperty { get; protected set; }
 
         /// <inheritdoc />
         public bool IsIdentity => IdentitySqlProperty != null;
+
+        /// <inheritdoc />
+        public Dictionary<string, PropertyInfo> JoinsLogicalDelete { get; protected set; }
+
+        /// <inheritdoc />
+        public SqlPropertyMetadata[] KeySqlProperties { get; protected set; }
+
+        /// <inheritdoc />
+        public bool LogicalDelete { get; protected set; }
+
+        /// <inheritdoc />
+        public object LogicalDeleteValue { get; protected set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public SqlProvider Provider { get; }
+
+        /// <inheritdoc />
+        public SqlJoinPropertyMetadata[] SqlJoinProperties { get; protected set; }
+
+        /// <inheritdoc />
+        public SqlPropertyMetadata[] SqlProperties { get; protected set; }
+
+        /// <inheritdoc />
+        public string StatusPropertyName { get; protected set; }
 
         /// <inheritdoc />
         public string TableName { get; protected set; }
@@ -82,35 +97,22 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
         public string TableSchema { get; protected set; }
 
         /// <inheritdoc />
-        public SqlPropertyMetadata IdentitySqlProperty { get; protected set; }
+        public PropertyInfo UpdatedAtProperty { get; protected set; }
 
         /// <inheritdoc />
-        public SqlPropertyMetadata[] KeySqlProperties { get; protected set; }
+        public SqlPropertyMetadata UpdatedAtPropertyMetadata { get; protected set; }
 
-        /// <inheritdoc />
-        public SqlPropertyMetadata[] SqlProperties { get; protected set; }
+        /// <summary>
+        ///
+        /// </summary>
+        public bool? UseQuotationMarks { get; set; }
 
-        /// <inheritdoc />
-        public SqlJoinPropertyMetadata[] SqlJoinProperties { get; protected set; }
-
-        /// <inheritdoc />
-        public bool LogicalDelete { get; protected set; }
-
-        /// <inheritdoc />
-        public Dictionary<string, PropertyInfo> JoinsLogicalDelete { get; protected set; }
-
-        /// <inheritdoc />
-        public string StatusPropertyName { get; protected set; }
-
-        /// <inheritdoc />
-        public object LogicalDeleteValue { get; protected set; }
-
-
-        private enum QueryType
+        private void Initialize()
         {
-            Select,
-            Delete,
-            Update
+            // Order is important
+            InitProperties();
+            InitConfig();
+            InitLogicalDeleted();
         }
     }
 }

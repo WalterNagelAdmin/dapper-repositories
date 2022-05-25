@@ -1,8 +1,9 @@
+using MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions;
 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
@@ -31,54 +32,54 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
             {
                 var methodName = methodCallExpression.Method.Name;
                 var exprObj = methodCallExpression.Object;
-                MethodLabel:
+            MethodLabel:
                 switch (methodName)
                 {
                     case "Contains":
-                    {
-                        if (exprObj != null
-                            && exprObj.NodeType == ExpressionType.MemberAccess
-                            && exprObj.Type == typeof(string))
                         {
-                            methodName = "StringContains";
-                            goto MethodLabel;
+                            if (exprObj != null
+                                && exprObj.NodeType == ExpressionType.MemberAccess
+                                && exprObj.Type == typeof(string))
+                            {
+                                methodName = "StringContains";
+                                goto MethodLabel;
+                            }
+
+                            var propertyName = ExpressionHelper.GetPropertyNamePath(methodCallExpression, out var isNested);
+
+                            if (!SqlProperties.Select(x => x.PropertyName).Contains(propertyName) &&
+                                !SqlJoinProperties.Select(x => x.PropertyName).Contains(propertyName))
+                                throw new NotSupportedException("predicate can't parse");
+
+                            var propertyValue = ExpressionHelper.GetValuesFromCollection(methodCallExpression);
+                            var opr = ExpressionHelper.GetMethodCallSqlOperator(methodName, isNotUnary);
+                            var link = ExpressionHelper.GetSqlOperator(linkingType);
+                            return new QueryParameterExpression(link, propertyName, propertyValue, opr, isNested);
                         }
-
-                        var propertyName = ExpressionHelper.GetPropertyNamePath(methodCallExpression, out var isNested);
-
-                        if (!SqlProperties.Select(x => x.PropertyName).Contains(propertyName) &&
-                            !SqlJoinProperties.Select(x => x.PropertyName).Contains(propertyName))
-                            throw new NotSupportedException("predicate can't parse");
-
-                        var propertyValue = ExpressionHelper.GetValuesFromCollection(methodCallExpression);
-                        var opr = ExpressionHelper.GetMethodCallSqlOperator(methodName, isNotUnary);
-                        var link = ExpressionHelper.GetSqlOperator(linkingType);
-                        return new QueryParameterExpression(link, propertyName, propertyValue, opr, isNested);
-                    }
                     case "StringContains":
                     case "CompareString":
                     case "Equals":
                     case "StartsWith":
                     case "EndsWith":
-                    {
-                        if (exprObj == null
-                            || exprObj.NodeType != ExpressionType.MemberAccess)
                         {
-                            goto default;
+                            if (exprObj == null
+                                || exprObj.NodeType != ExpressionType.MemberAccess)
+                            {
+                                goto default;
+                            }
+
+                            var propertyName = ExpressionHelper.GetPropertyNamePath(exprObj, out bool isNested);
+
+                            if (!SqlProperties.Select(x => x.PropertyName).Contains(propertyName) &&
+                                !SqlJoinProperties.Select(x => x.PropertyName).Contains(propertyName))
+                                throw new NotSupportedException("predicate can't parse");
+
+                            var propertyValue = ExpressionHelper.GetValuesFromStringMethod(methodCallExpression);
+                            var likeValue = ExpressionHelper.GetSqlLikeValue(methodName, propertyValue);
+                            var opr = ExpressionHelper.GetMethodCallSqlOperator(methodName, isNotUnary);
+                            var link = ExpressionHelper.GetSqlOperator(linkingType);
+                            return new QueryParameterExpression(link, propertyName, likeValue, opr, isNested);
                         }
-
-                        var propertyName = ExpressionHelper.GetPropertyNamePath(exprObj, out bool isNested);
-
-                        if (!SqlProperties.Select(x => x.PropertyName).Contains(propertyName) &&
-                            !SqlJoinProperties.Select(x => x.PropertyName).Contains(propertyName))
-                            throw new NotSupportedException("predicate can't parse");
-
-                        var propertyValue = ExpressionHelper.GetValuesFromStringMethod(methodCallExpression);
-                        var likeValue = ExpressionHelper.GetSqlLikeValue(methodName, propertyValue);
-                        var opr = ExpressionHelper.GetMethodCallSqlOperator(methodName, isNotUnary);
-                        var link = ExpressionHelper.GetSqlOperator(linkingType);
-                        return new QueryParameterExpression(link, propertyName, likeValue, opr, isNested);
-                    }
                     default:
                         throw new NotSupportedException($"'{methodName}' method is not supported");
                 }
@@ -115,7 +116,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                     }
 
                     var propertyValue = ExpressionHelper.GetValue(binaryExpression.Right);
-                    var nodeType = checkNullable ? ((bool) propertyValue == false ? ExpressionType.Equal : ExpressionType.NotEqual) : binaryExpression.NodeType;
+                    var nodeType = checkNullable ? ((bool)propertyValue == false ? ExpressionType.Equal : ExpressionType.NotEqual) : binaryExpression.NodeType;
                     if (checkNullable)
                     {
                         propertyValue = null;
@@ -142,7 +143,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                                         var nodes = new QueryBinaryExpression
                                         {
                                             LinkingOperator = leftExpr.LinkingOperator,
-                                            Nodes = new List<QueryExpression> {leftExpr}
+                                            Nodes = new List<QueryExpression> { leftExpr }
                                         };
 
                                         rQBExpr.Nodes[0].LinkingOperator = rQBExpr.LinkingOperator;
@@ -207,7 +208,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                 {
                     NodeType = QueryExpressionType.Binary,
                     LinkingOperator = nLinkingOperator,
-                    Nodes = new List<QueryExpression> {leftExpr, rightExpr},
+                    Nodes = new List<QueryExpression> { leftExpr, rightExpr },
                 };
             }
 

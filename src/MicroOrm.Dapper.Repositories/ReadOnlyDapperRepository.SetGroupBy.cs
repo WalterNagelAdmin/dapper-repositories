@@ -38,25 +38,26 @@ namespace MicroOrm.Dapper.Repositories
             switch (expr.Body.NodeType)
             {
                 case ExpressionType.Convert:
-                {
-                    if (expr.Body is UnaryExpression lambdaUnary)
                     {
-                        var expression = lambdaUnary.Operand as MemberExpression;
-                        order.Columns = new List<string> {GetProperty(expression, type)};
-                    }
+                        if (expr.Body is UnaryExpression lambdaUnary)
+                        {
+                            var expression = lambdaUnary.Operand as MemberExpression;
+                            order.Columns = new List<string> { GetProperty(expression, type) };
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case ExpressionType.MemberAccess:
                     order.Columns = new List<string> { GetProperty(expr.Body, type) };
                     break;
+
                 default:
-                {
-                    var cols = (expr.Body as NewExpression)?.Arguments;
-                    var propertyNames = cols?.Select(expression => GetProperty(expression, type)).ToList();
-                    order.Columns = propertyNames;
-                    break;
-                }
+                    {
+                        var cols = (expr.Body as NewExpression)?.Arguments;
+                        var propertyNames = cols?.Select(expression => GetProperty(expression, type)).ToList();
+                        order.Columns = propertyNames;
+                        break;
+                    }
             }
 
             order.Permanent = permanent;
@@ -71,7 +72,7 @@ namespace MicroOrm.Dapper.Repositories
         {
             return SetGroupBy(false, expr);
         }
-        
+
         /// <inheritdoc />
         public virtual IReadOnlyDapperRepository<TEntity> SetOrderBy<T>(Expression<Func<T, object>> expr)
         {

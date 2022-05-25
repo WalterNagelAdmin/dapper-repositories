@@ -1,3 +1,9 @@
+using Dapper;
+
+using MicroOrm.Dapper.Repositories.Extensions;
+using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,11 +13,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Dapper;
-using MicroOrm.Dapper.Repositories.Extensions;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories
 {
     /// <summary>
@@ -41,14 +45,14 @@ namespace MicroOrm.Dapper.Repositories
             {
                 var prop = ExpressionHelper.GetPropertyName(s);
                 var childProp = type.GetProperty(prop);
-                
-                if (childProp == null) 
+
+                if (childProp == null)
                     continue;
-                
+
                 childProperties.Add(childProp);
                 var childType = childProp.PropertyType.IsGenericType ? childProp.PropertyType.GenericTypeArguments[0] : childProp.PropertyType;
                 var properties = childType.FindClassPrimitiveProperties();
-               
+
                 childKeyProperties.AddRange(properties.Where(p => p.GetCustomAttributes<KeyAttribute>().Any()));
             }
 
@@ -111,7 +115,6 @@ namespace MicroOrm.Dapper.Repositories
             return lookup.Values;
         }
 
-
         /// <summary>
         ///     Execute Join query
         /// </summary>
@@ -132,16 +135,16 @@ namespace MicroOrm.Dapper.Repositories
             {
                 var prop = ExpressionHelper.GetPropertyName(s);
                 var childProp = type.GetProperty(prop);
-                
-                if (childProp == null) 
+
+                if (childProp == null)
                     continue;
-                
+
                 childProperties.Add(childProp);
                 var childType = childProp.PropertyType.IsGenericType ? childProp.PropertyType.GenericTypeArguments[0] : childProp.PropertyType;
                 var properties = childType.FindClassPrimitiveProperties();
                 childKeyProperties.AddRange(properties.Where(p => p.GetCustomAttributes<KeyAttribute>().Any()));
             }
-            
+
             if (!childKeyProperties.Any())
                 throw new NotSupportedException("Join doesn't support without [Key] attribute");
 
@@ -202,7 +205,6 @@ namespace MicroOrm.Dapper.Repositories
             return lookup.Values;
         }
 
-
         private static TEntity EntityJoinMapping<TChild1, TChild2, TChild3, TChild4, TChild5, TChild6>(IDictionary<object, TEntity> lookup, PropertyInfo[] keyProperties,
             IList<PropertyInfo> childKeyProperties, IList<PropertyInfo> childProperties, TEntity entity, params object[] childs)
         {
@@ -219,7 +221,7 @@ namespace MicroOrm.Dapper.Repositories
 
                 if (childProperty.PropertyType.IsGenericType)
                 {
-                    var list = (IList) childProperty.GetValue(target);
+                    var list = (IList)childProperty.GetValue(target);
                     if (list == null)
                     {
                         switch (i)

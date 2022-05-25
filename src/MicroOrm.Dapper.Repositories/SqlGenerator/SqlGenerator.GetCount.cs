@@ -3,7 +3,9 @@ using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

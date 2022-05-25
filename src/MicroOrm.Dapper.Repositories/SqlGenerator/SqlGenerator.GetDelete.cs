@@ -16,7 +16,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
         public virtual SqlQuery GetDelete(TEntity entity)
         {
             var sqlQuery = new SqlQuery();
-            var whereAndSql = 
+            var whereAndSql =
                 string.Join(" AND ", KeySqlProperties.Select(p => string.Format("{0}.{1} = @{2}", TableName, p.ColumnName, p.PropertyName)));
 
             if (!LogicalDelete)
@@ -28,7 +28,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                     .Append(whereAndSql);
             }
             else
-            {                
+            {
                 sqlQuery.SqlBuilder
                     .Append("UPDATE ")
                     .Append(TableName)
@@ -47,7 +47,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                     {
                         offset = offset.ToOffset(TimeSpan.FromHours(attribute.OffSet));
                     }
-                    
+
                     UpdatedAtProperty.SetValue(entity, offset.DateTime);
 
                     sqlQuery.SqlBuilder
@@ -57,7 +57,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                         .Append(UpdatedAtPropertyMetadata.PropertyName);
                 }
 
-                sqlQuery.SqlBuilder 
+                sqlQuery.SqlBuilder
                     .Append(" WHERE ")
                     .Append(whereAndSql);
             }
@@ -93,8 +93,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                         .Append(UpdatedAtPropertyMetadata.ColumnName)
                         .Append(" = @")
                         .Append(UpdatedAtPropertyMetadata.PropertyName);
-
-               
             }
             sqlQuery.SqlBuilder.Append(" ");
             AppendWherePredicateQuery(sqlQuery, predicate, QueryType.Delete);

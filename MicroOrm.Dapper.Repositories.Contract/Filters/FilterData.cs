@@ -6,16 +6,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
     public class FilterData
     {
         /// <summary>
-        /// The query select settings
-        /// </summary>
-        public SelectInfo SelectInfo { get; set; }   
-        
-        /// <summary>
-        /// The query order settings
-        /// </summary>
-        public OrderInfo OrderInfo { get; set; }
-
-        /// <summary>
         /// The query group settings
         /// </summary>
         public GroupInfo GroupInfo { get; set; }
@@ -29,5 +19,15 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
         /// Specify if the query is ordered
         /// </sumary>
         public bool Ordered { get; set; }
+
+        /// <summary>
+        /// The query order settings
+        /// </summary>
+        public OrderInfo OrderInfo { get; set; }
+
+        /// <summary>
+        /// The query select settings
+        /// </summary>
+        public SelectInfo SelectInfo { get; set; }
     }
 }

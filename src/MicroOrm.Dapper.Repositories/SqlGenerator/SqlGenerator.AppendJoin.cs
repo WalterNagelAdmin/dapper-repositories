@@ -1,3 +1,9 @@
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
+using MicroOrm.Dapper.Repositories.Contract.Attributes.LogicalDelete;
+using MicroOrm.Dapper.Repositories.Extensions;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -5,60 +11,14 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-using MicroOrm.Dapper.Repositories.Contact.Config;
-using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
-using MicroOrm.Dapper.Repositories.Contract.Attributes.LogicalDelete;
-using MicroOrm.Dapper.Repositories.Extensions;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-#pragma warning disable 
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
     public partial class SqlGenerator<TEntity>
         where TEntity : class
     {
-        private string AppendJoinToUpdate<TBase>(TBase entity, SqlQuery originalBuilder, params Expression<Func<TEntity, object>>[] includes)
-        {
-            var joinBuilder = new StringBuilder();
-
-            foreach (var include in includes)
-            {
-                var joinProperty = AllProperties.First(q => q.Name == ExpressionHelper.GetPropertyName(include));
-                var attrJoin = joinProperty.GetCustomAttribute<JoinAttributeBase>();
-
-                if (attrJoin == null)
-                    continue;
-
-                var declaringType = joinProperty.ReflectedType.GetTypeInfo();
-                var tableAttribute = declaringType.GetCustomAttribute<TableAttribute>();
-                var tableName = MicroOrmConfig.TablePrefix + (tableAttribute != null ? tableAttribute.Name : declaringType.Name);
-
-                var joinType = joinProperty.PropertyType.IsGenericType ? joinProperty.PropertyType.GenericTypeArguments[0] : joinProperty.PropertyType;
-                var properties = joinType.FindClassMetaDataProperties().Where(p => !p.IgnoreUpdate).ToArray();
-
-                var joinEntity = entity.GetType().GetProperty(joinProperty.Name)?.GetValue(entity, null);
-                if (joinEntity == null)
-                    return string.Empty;
-
-                var dict = properties.ToDictionary(prop => $"{prop.PropertyInfo.ReflectedType?.Name}{prop.PropertyName}",
-                    prop => joinType.GetProperty(prop.PropertyName)?.GetValue(joinEntity, null));
-                originalBuilder.SetParam(dict);
-
-                if (UseQuotationMarks == true)
-                {
-                    tableName = GetTableNameWithQuotes(attrJoin, properties, tableName);
-                }
-                else
-                    attrJoin.TableName = GetTableNameWithSchemaPrefix(attrJoin.TableName, attrJoin.TableSchema);
-
-                joinBuilder.Append(
-                    $", {GetFieldsUpdate(string.IsNullOrEmpty(attrJoin.TableAlias) ? attrJoin.TableName : attrJoin.TableAlias, properties, UseQuotationMarks == true)}");
-                AppendJoinQuery(attrJoin, originalBuilder.SqlBuilder, tableName);
-            }
-
-            return joinBuilder.ToString();
-        }
-
         private void AppendJoinQuery(JoinAttributeBase attrJoin, StringBuilder joinBuilder, string tableName)
         {
             var joinString = attrJoin.ToString();
@@ -129,6 +89,48 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                         $", {GetFieldsSelect(string.IsNullOrEmpty(attrJoin.TableAlias) ? attrJoin.TableName : attrJoin.TableAlias, properties, UseQuotationMarks == true)}");
 
                 AppendJoinQuery(attrJoin, joinBuilder, tableName);
+            }
+
+            return joinBuilder.ToString();
+        }
+
+        private string AppendJoinToUpdate<TBase>(TBase entity, SqlQuery originalBuilder, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var joinBuilder = new StringBuilder();
+
+            foreach (var include in includes)
+            {
+                var joinProperty = AllProperties.First(q => q.Name == ExpressionHelper.GetPropertyName(include));
+                var attrJoin = joinProperty.GetCustomAttribute<JoinAttributeBase>();
+
+                if (attrJoin == null)
+                    continue;
+
+                var declaringType = joinProperty.ReflectedType.GetTypeInfo();
+                var tableAttribute = declaringType.GetCustomAttribute<TableAttribute>();
+                var tableName = MicroOrmConfig.TablePrefix + (tableAttribute != null ? tableAttribute.Name : declaringType.Name);
+
+                var joinType = joinProperty.PropertyType.IsGenericType ? joinProperty.PropertyType.GenericTypeArguments[0] : joinProperty.PropertyType;
+                var properties = joinType.FindClassMetaDataProperties().Where(p => !p.IgnoreUpdate).ToArray();
+
+                var joinEntity = entity.GetType().GetProperty(joinProperty.Name)?.GetValue(entity, null);
+                if (joinEntity == null)
+                    return string.Empty;
+
+                var dict = properties.ToDictionary(prop => $"{prop.PropertyInfo.ReflectedType?.Name}{prop.PropertyName}",
+                    prop => joinType.GetProperty(prop.PropertyName)?.GetValue(joinEntity, null));
+                originalBuilder.SetParam(dict);
+
+                if (UseQuotationMarks == true)
+                {
+                    tableName = GetTableNameWithQuotes(attrJoin, properties, tableName);
+                }
+                else
+                    attrJoin.TableName = GetTableNameWithSchemaPrefix(attrJoin.TableName, attrJoin.TableSchema);
+
+                joinBuilder.Append(
+                    $", {GetFieldsUpdate(string.IsNullOrEmpty(attrJoin.TableAlias) ? attrJoin.TableName : attrJoin.TableAlias, properties, UseQuotationMarks == true)}");
+                AppendJoinQuery(attrJoin, originalBuilder.SqlBuilder, tableName);
             }
 
             return joinBuilder.ToString();

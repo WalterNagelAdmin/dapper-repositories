@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 
 namespace MicroOrm.Dapper.Repositories.DbContext
 {
@@ -29,13 +29,6 @@ namespace MicroOrm.Dapper.Repositories.DbContext
         }
 
         /// <inheritdoc />
-        public void OpenConnection()
-        {
-            if (InnerConnection.State != ConnectionState.Open && InnerConnection.State != ConnectionState.Connecting)
-                InnerConnection.Open();
-        }
-
-        /// <inheritdoc />
         public virtual IDbTransaction BeginTransaction()
         {
             return Connection.BeginTransaction();
@@ -49,6 +42,13 @@ namespace MicroOrm.Dapper.Repositories.DbContext
         {
             if (InnerConnection != null && InnerConnection.State != ConnectionState.Closed)
                 InnerConnection.Close();
+        }
+
+        /// <inheritdoc />
+        public void OpenConnection()
+        {
+            if (InnerConnection.State != ConnectionState.Open && InnerConnection.State != ConnectionState.Connecting)
+                InnerConnection.Open();
         }
     }
 }

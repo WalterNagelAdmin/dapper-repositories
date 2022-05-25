@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
 {
     /// <summary>
@@ -13,13 +11,13 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
         public List<string> Columns { get; set; }
 
         /// <summary>
-        /// If true, will be used for all queries
-        /// </summary>
-        public bool Permanent { get; set; }
-
-        /// <summary>
         /// You can specify a custom query if you need more "liberty"
         /// </summary>
         public string CustomQuery { get; set; }
+
+        /// <summary>
+        /// If true, will be used for all queries
+        /// </summary>
+        public bool Permanent { get; set; }
     }
 }

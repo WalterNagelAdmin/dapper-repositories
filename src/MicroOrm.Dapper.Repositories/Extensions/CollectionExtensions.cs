@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.Extensions
 {
     internal static class CollectionExtensions

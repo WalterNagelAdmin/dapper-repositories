@@ -1,6 +1,7 @@
+using Dapper;
+
 using System.Data;
 using System.Threading.Tasks;
-using Dapper;
 
 namespace MicroOrm.Dapper.Repositories
 {

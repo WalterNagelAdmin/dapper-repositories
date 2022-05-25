@@ -1,3 +1,7 @@
+using MicroOrm.Dapper.Repositories.Contract.Attributes;
+using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+
 using System;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
@@ -5,32 +9,32 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 
-using MicroOrm.Dapper.Repositories.Contract.Attributes;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-#pragma warning disable 
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.Extensions
 {
     internal static class TypeExtensions
     {
-        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _reflectionPropertyCache = new ConcurrentDictionary<Type, PropertyInfo[]>();
-        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _reflectionPrimitivePropertyCache = new ConcurrentDictionary<Type, PropertyInfo[]>();
         private static readonly ConcurrentDictionary<Type, SqlPropertyMetadata[]> _metaDataPropertyCache = new ConcurrentDictionary<Type, SqlPropertyMetadata[]>();
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _reflectionPrimitivePropertyCache = new ConcurrentDictionary<Type, PropertyInfo[]>();
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _reflectionPropertyCache = new ConcurrentDictionary<Type, PropertyInfo[]>();
 
-        public static PropertyInfo[] FindClassProperties(this Type objectType)
+        public static SqlPropertyMetadata[] FindClassMetaDataProperties(this Type objectType)
         {
-            if (_reflectionPropertyCache.TryGetValue(objectType, out var cachedEntry))
+            if (_metaDataPropertyCache.TryGetValue(objectType, out var cachedEntry))
                 return cachedEntry;
 
-            var propertyInfos = objectType.GetProperties()
+            var props = objectType.GetProperties();
+            var propertyInfos = props
                 .OrderByDescending(x => x.GetCustomAttribute<IdentityAttribute>() != null)
                 .ThenByDescending(x => x.GetCustomAttribute<KeyAttribute>() != null)
                 .ThenBy(p => p.GetCustomAttributes<ColumnAttribute>()
                     .Select(a => a.Order)
                     .DefaultIfEmpty(int.MaxValue)
-                    .FirstOrDefault()).ToArray();
+                    .FirstOrDefault()).Where(ExpressionHelper.GetPrimitivePropertiesPredicate())
+                .Where(p => !p.GetCustomAttributes<NotMappedAttribute>().Any()).Select(p => new SqlPropertyMetadata(p)).ToArray();
 
-            _reflectionPropertyCache.TryAdd(objectType, propertyInfos);
+            _metaDataPropertyCache.TryAdd(objectType, propertyInfos);
 
             return propertyInfos;
         }
@@ -54,22 +58,20 @@ namespace MicroOrm.Dapper.Repositories.Extensions
             return propertyInfos;
         }
 
-        public static SqlPropertyMetadata[] FindClassMetaDataProperties(this Type objectType)
+        public static PropertyInfo[] FindClassProperties(this Type objectType)
         {
-            if (_metaDataPropertyCache.TryGetValue(objectType, out var cachedEntry))
+            if (_reflectionPropertyCache.TryGetValue(objectType, out var cachedEntry))
                 return cachedEntry;
 
-            var props = objectType.GetProperties();
-            var propertyInfos = props
+            var propertyInfos = objectType.GetProperties()
                 .OrderByDescending(x => x.GetCustomAttribute<IdentityAttribute>() != null)
                 .ThenByDescending(x => x.GetCustomAttribute<KeyAttribute>() != null)
                 .ThenBy(p => p.GetCustomAttributes<ColumnAttribute>()
                     .Select(a => a.Order)
                     .DefaultIfEmpty(int.MaxValue)
-                    .FirstOrDefault()).Where(ExpressionHelper.GetPrimitivePropertiesPredicate())
-                .Where(p => !p.GetCustomAttributes<NotMappedAttribute>().Any()).Select(p => new SqlPropertyMetadata(p)).ToArray();
+                    .FirstOrDefault()).ToArray();
 
-            _metaDataPropertyCache.TryAdd(objectType, propertyInfos);
+            _reflectionPropertyCache.TryAdd(objectType, propertyInfos);
 
             return propertyInfos;
         }

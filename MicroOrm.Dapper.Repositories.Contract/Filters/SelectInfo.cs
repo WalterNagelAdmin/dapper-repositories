@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class SelectInfo
     {
@@ -14,6 +12,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters
         {
             Columns = new List<string>();
         }
+
         /// <summary>
         /// Columns
         /// </summary>

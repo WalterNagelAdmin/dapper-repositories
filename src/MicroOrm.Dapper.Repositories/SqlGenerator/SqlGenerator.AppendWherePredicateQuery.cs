@@ -1,12 +1,15 @@
+using MicroOrm.Dapper.Repositories.Extensions;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using MicroOrm.Dapper.Repositories.Extensions;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-using MicroOrm.Dapper.Repositories.SqlGenerator.QueryExpressions;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
@@ -138,7 +141,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
             switch (queryNode)
             {
                 case QueryParameterExpression qpExpr:
-                    return new List<QueryExpression> {queryNode};
+                    return new List<QueryExpression> { queryNode };
 
                 case QueryBinaryExpression qbExpr:
                     return qbExpr.Nodes;

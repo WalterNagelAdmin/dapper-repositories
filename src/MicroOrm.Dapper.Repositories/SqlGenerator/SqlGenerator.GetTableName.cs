@@ -2,7 +2,9 @@ using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
 using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
 using System;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />

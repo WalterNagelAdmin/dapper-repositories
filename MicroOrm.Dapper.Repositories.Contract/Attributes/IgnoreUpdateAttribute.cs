@@ -1,5 +1,3 @@
-using System;
-
 namespace MicroOrm.Dapper.Repositories.Contract.Attributes
 {
     /// <inheritdoc />

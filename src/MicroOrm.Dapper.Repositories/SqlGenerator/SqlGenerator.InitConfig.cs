@@ -1,7 +1,9 @@
 using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
 using System;
-#pragma warning disable 
+
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
     /// <inheritdoc />
@@ -28,10 +30,11 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                     case SqlProvider.PostgreSQL:
                         InitMetaData("\"", "\"");
                         break;
+
                     case SqlProvider.SQLite:
                         //SQLite doesn't use it.
                         break;
-                    
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(Provider));
                 }

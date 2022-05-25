@@ -1,6 +1,6 @@
-using System.Reflection;
-using System;
 using MicroOrm.Dapper.Repositories.Contract.Attributes.Joins;
+
+using System.Reflection;
 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
 {
@@ -25,21 +25,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         }
 
         /// <summary>
-        ///     Table name
-        /// </summary>
-        public string TableName { get; set; }
-
-        /// <summary>
-        ///     Table alias
-        /// </summary>
-        public string TableAlias { get; set; }
-
-        /// <summary>
-        ///     Schema name
-        /// </summary>
-        public string TableSchema { get; set; }
-
-        /// <summary>
         ///     Original join property info
         /// </summary>
         public PropertyInfo JoinPropertyInfo { get; set; }
@@ -53,5 +38,20 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         ///     Full property name
         /// </summary>
         public override string PropertyName => JoinPropertyName + base.PropertyName;
+
+        /// <summary>
+        ///     Table alias
+        /// </summary>
+        public string TableAlias { get; set; }
+
+        /// <summary>
+        ///     Table name
+        /// </summary>
+        public string TableName { get; set; }
+
+        /// <summary>
+        ///     Schema name
+        /// </summary>
+        public string TableSchema { get; set; }
     }
 }

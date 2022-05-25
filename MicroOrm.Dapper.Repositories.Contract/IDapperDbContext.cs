@@ -1,4 +1,3 @@
-using System;
 using System.Data;
 
 namespace MicroOrm.Dapper.Repositories.DbContext.Contract
@@ -14,13 +13,13 @@ namespace MicroOrm.Dapper.Repositories.DbContext.Contract
         IDbConnection Connection { get; }
 
         /// <summary>
-        ///     Open DB connection
-        /// </summary>
-        void OpenConnection();
-
-        /// <summary>
         ///     Open DB connection and Begin transaction
         /// </summary>
         IDbTransaction BeginTransaction();
+
+        /// <summary>
+        ///     Open DB connection
+        /// </summary>
+        void OpenConnection();
     }
 }

@@ -1,11 +1,12 @@
+using Dapper;
+
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 
 namespace MicroOrm.Dapper.Repositories
 {
@@ -28,7 +29,7 @@ namespace MicroOrm.Dapper.Repositories
                         ? SqlGenerator.SqlProperties.Where(p => !p.PropertyName.Equals(SqlGenerator.IdentitySqlProperty.PropertyName, StringComparison.OrdinalIgnoreCase))
                         : SqlGenerator.SqlProperties).ToList();
 
-                int exceededTimes = (int) Math.Ceiling(totalInstances * properties.Count / 2099d);
+                int exceededTimes = (int)Math.Ceiling(totalInstances * properties.Count / 2099d);
                 if (exceededTimes > 1)
                 {
                     int maxAllowedInstancesPerBatch = totalInstances / exceededTimes;
@@ -36,7 +37,7 @@ namespace MicroOrm.Dapper.Repositories
                     for (int i = 0; i <= exceededTimes; i++)
                     {
                         var skips = i * maxAllowedInstancesPerBatch;
-                        
+
                         if (skips >= totalInstances)
                             break;
 
@@ -66,7 +67,7 @@ namespace MicroOrm.Dapper.Repositories
                         ? SqlGenerator.SqlProperties.Where(p => !p.PropertyName.Equals(SqlGenerator.IdentitySqlProperty.PropertyName, StringComparison.OrdinalIgnoreCase))
                         : SqlGenerator.SqlProperties).ToList();
 
-                int exceededTimes = (int) Math.Ceiling(totalInstances * properties.Count / 2099d);
+                int exceededTimes = (int)Math.Ceiling(totalInstances * properties.Count / 2099d);
                 if (exceededTimes > 1)
                 {
                     int maxAllowedInstancesPerBatch = totalInstances / exceededTimes;

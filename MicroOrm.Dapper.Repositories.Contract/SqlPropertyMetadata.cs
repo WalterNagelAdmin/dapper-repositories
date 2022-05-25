@@ -1,6 +1,5 @@
 using MicroOrm.Dapper.Repositories.Contract.Attributes;
 
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
@@ -38,11 +37,6 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         }
 
         /// <summary>
-        ///     Original PropertyInfo
-        /// </summary>
-        public PropertyInfo PropertyInfo { get; }
-
-        /// <summary>
         ///     Alias for ColumnName
         /// </summary>
         public string Alias { get; set; }
@@ -50,12 +44,12 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         /// <summary>
         ///     ColumnName
         /// </summary>
-        public string ColumnName { get; set; }
+        public string CleanColumnName { get; set; }
 
         /// <summary>
         ///     ColumnName
         /// </summary>
-        public string CleanColumnName { get; set; }
+        public string ColumnName { get; set; }
 
         /// <summary>
         ///     Exclude property from update
@@ -66,6 +60,11 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator.Contract
         ///     Check if is nullable
         /// </summary>
         public bool IsNullable { get; set; }
+
+        /// <summary>
+        ///     Original PropertyInfo
+        /// </summary>
+        public PropertyInfo PropertyInfo { get; }
 
         /// <summary>
         ///     PropertyName

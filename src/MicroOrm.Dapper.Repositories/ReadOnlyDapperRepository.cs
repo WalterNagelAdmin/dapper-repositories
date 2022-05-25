@@ -1,15 +1,17 @@
+using MicroOrm.Dapper.Repositories.Contact.Config;
+using MicroOrm.Dapper.Repositories.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
+using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
+
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
 
-using MicroOrm.Dapper.Repositories.Contact.Config;
-using MicroOrm.Dapper.Repositories.Contract;
-using MicroOrm.Dapper.Repositories.SqlGenerator;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
-using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
-#pragma warning disable 
+#pragma warning disable
+
 namespace MicroOrm.Dapper.Repositories
 {
     /// <summary>
@@ -47,22 +49,6 @@ namespace MicroOrm.Dapper.Repositories
         /// <inheritdoc />
         public ISqlGenerator<TEntity> SqlGenerator { get; }
 
-        private static string GetProperty(Expression expression, Type type)
-        {
-            var field = (MemberExpression)expression;
-
-            var prop = type.GetProperty(field.Member.Name);
-            var declaringType = type.GetTypeInfo();
-            var tableAttribute = declaringType.GetCustomAttribute<TableAttribute>();
-            var tableName = MicroOrmConfig.TablePrefix + (tableAttribute != null ? tableAttribute.Name : declaringType.Name);
-
-            if (prop == null || prop.GetCustomAttribute<NotMappedAttribute>() != null)
-                return string.Empty;
-
-            var name = prop.GetCustomAttribute<ColumnAttribute>()?.Name ?? prop.Name;
-            return $"{tableName}.{name}";
-        }
-
         /// <inheritdoc />
         public void Dispose()
         {
@@ -85,6 +71,22 @@ namespace MicroOrm.Dapper.Repositories
             }
 
             FilterData = null;
+        }
+
+        private static string GetProperty(Expression expression, Type type)
+        {
+            var field = (MemberExpression)expression;
+
+            var prop = type.GetProperty(field.Member.Name);
+            var declaringType = type.GetTypeInfo();
+            var tableAttribute = declaringType.GetCustomAttribute<TableAttribute>();
+            var tableName = MicroOrmConfig.TablePrefix + (tableAttribute != null ? tableAttribute.Name : declaringType.Name);
+
+            if (prop == null || prop.GetCustomAttribute<NotMappedAttribute>() != null)
+                return string.Empty;
+
+            var name = prop.GetCustomAttribute<ColumnAttribute>()?.Name ?? prop.Name;
+            return $"{tableName}.{name}";
         }
     }
 }
