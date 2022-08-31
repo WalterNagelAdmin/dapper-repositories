@@ -50,7 +50,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                         break;
 
                     case SqlProvider.SQLite:
-                        query.SqlBuilder.Append("; SELECT LAST_INSERT_ROWID() AS " + IdentitySqlProperty.ColumnName);
+                        query.SqlBuilder.Append("returning id;");
                         break;
 
                     case SqlProvider.PostgreSQL:
