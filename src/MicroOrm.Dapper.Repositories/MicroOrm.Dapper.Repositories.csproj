@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+
+    <TargetFramework>net6.0</TargetFramework>
     <Description>CRUD for Dapper</Description>
     <Copyright>2015 © Serge K</Copyright>
     <VersionPrefix>1.20.0</VersionPrefix>
