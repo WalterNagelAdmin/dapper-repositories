@@ -19,13 +19,10 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
         private QueryExpression GetQueryProperties(Expression expr, ExpressionType linkingType)
         {
             var isNotUnary = false;
-            if (expr is UnaryExpression unaryExpression)
+            if (expr is UnaryExpression unaryExpression && unaryExpression.NodeType == ExpressionType.Not && unaryExpression.Operand is MethodCallExpression)
             {
-                if (unaryExpression.NodeType == ExpressionType.Not && unaryExpression.Operand is MethodCallExpression)
-                {
-                    expr = unaryExpression.Operand;
-                    isNotUnary = true;
-                }
+                expr = unaryExpression.Operand;
+                isNotUnary = true;
             }
 
             if (expr is MethodCallExpression methodCallExpression)
