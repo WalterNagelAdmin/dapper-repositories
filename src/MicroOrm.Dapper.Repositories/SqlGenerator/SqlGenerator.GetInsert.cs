@@ -7,11 +7,17 @@ using System.Reflection;
 
 namespace MicroOrm.Dapper.Repositories.SqlGenerator
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// part of a SQL generator
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public partial class SqlGenerator<TEntity>
         where TEntity : class
     {
-        /// <inheritdoc />
+        
+        /// <summary>
+        ///     Get SQL for INSERT Query
+        /// </summary>
         public virtual SqlQuery GetInsert(TEntity entity)
         {
             var properties =
@@ -58,7 +64,7 @@ namespace MicroOrm.Dapper.Repositories.SqlGenerator
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(Provider));
                 }
 
             return query;
