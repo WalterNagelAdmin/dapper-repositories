@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 
 namespace MicroOrm.Dapper.Repositories.DbContext
@@ -34,11 +35,18 @@ namespace MicroOrm.Dapper.Repositories.DbContext
             return Connection.BeginTransaction();
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        ///     Close DB connection
-        /// </summary>
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
         {
             if (InnerConnection != null && InnerConnection.State != ConnectionState.Closed)
                 InnerConnection.Close();

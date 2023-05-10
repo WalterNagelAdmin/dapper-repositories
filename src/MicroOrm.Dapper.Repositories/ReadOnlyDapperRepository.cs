@@ -49,8 +49,18 @@ namespace MicroOrm.Dapper.Repositories
         /// <inheritdoc />
         public ISqlGenerator<TEntity> SqlGenerator { get; }
 
-        /// <inheritdoc />
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
         {
             Connection?.Dispose();
             Connection = null;
