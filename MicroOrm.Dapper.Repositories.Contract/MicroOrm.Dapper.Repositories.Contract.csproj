@@ -12,7 +12,6 @@
     <Copyright>Walter Nagel GmbH &amp; Co. KG</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\__Tools\DllSigKeys\keypair.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>0</WarningLevel>
