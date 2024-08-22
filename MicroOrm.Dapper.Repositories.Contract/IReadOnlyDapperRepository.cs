@@ -146,7 +146,7 @@ namespace MicroOrm.Dapper.Repositories.Contract
         /// <summary>
         ///     Get all objects with orderBy
         /// </summary>
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, string, string>> orderBy);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, string, string>> orderBy, IDbTransaction? transaction = null);
 
         /// <summary>
         ///     Get all objects with join objects
@@ -213,7 +213,7 @@ namespace MicroOrm.Dapper.Repositories.Contract
         /// <summary>
         ///     Get all objects
         /// </summary>
-        Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> FindAllAsync(IDbTransaction? transaction = null);
 
         /// <summary>
         ///     Get all objects
@@ -532,6 +532,11 @@ namespace MicroOrm.Dapper.Repositories.Contract
             Expression<Func<TEntity, object>> tChild5,
             Expression<Func<TEntity, object>> tChild6,
             IDbTransaction? transaction = null);
+
+        /// <summary>
+        /// Remove query grouping
+        /// </summary>
+        IReadOnlyDapperRepository<TEntity> SetGroupBy();
 
         /// <summary>
         /// Set query grouping

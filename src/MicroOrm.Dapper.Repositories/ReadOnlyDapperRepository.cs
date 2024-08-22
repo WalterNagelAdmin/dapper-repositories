@@ -5,6 +5,7 @@ using MicroOrm.Dapper.Repositories.SqlGenerator.Contract;
 using MicroOrm.Dapper.Repositories.SqlGenerator.Contract.Filters;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq.Expressions;
@@ -98,5 +99,6 @@ namespace MicroOrm.Dapper.Repositories
             var name = prop.GetCustomAttribute<ColumnAttribute>()?.Name ?? prop.Name;
             return $"{tableName}.{name}";
         }
+
     }
 }
