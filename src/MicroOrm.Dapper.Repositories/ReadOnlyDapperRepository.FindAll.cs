@@ -21,7 +21,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<TEntity> FindAll(IDbTransaction transaction)
+        public virtual IEnumerable<TEntity> FindAll(IDbTransaction transaction = null)
         {
             return FindAll(null, transaction);
         }
@@ -39,12 +39,13 @@ namespace MicroOrm.Dapper.Repositories
             return FindAll(predicate, transaction: null);
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, string, string>> orderBy, IDbTransaction transaction = null)
         {
             return FindAll(predicate, transaction);
         }
         /// <inheritdoc />
-        public virtual IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction)
+        public virtual IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectAll(predicate, FilterData);
             return Connection.Query<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);
@@ -57,7 +58,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(IDbTransaction transaction)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(IDbTransaction transaction = null)
         {
             return await FindAllAsync(null, transaction);
         }
@@ -69,7 +70,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction)
+        public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectAll(predicate, FilterData);
             return await Connection.QueryAsync<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);

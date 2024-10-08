@@ -20,7 +20,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual TEntity Find(IDbTransaction transaction)
+        public virtual TEntity Find(IDbTransaction transaction = null)
         {
             return Find(null, transaction);
         }
@@ -32,7 +32,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual TEntity Find(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction)
+        public virtual TEntity Find(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectFirst(predicate, FilterData);
             return Connection.QueryFirstOrDefault<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);
@@ -45,7 +45,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual Task<TEntity> FindAsync(IDbTransaction transaction)
+        public virtual Task<TEntity> FindAsync(IDbTransaction transaction = null)
         {
             return FindAsync(null, transaction);
         }
@@ -57,7 +57,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction)
+        public virtual Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectFirst(predicate, FilterData);
             return Connection.QueryFirstOrDefaultAsync<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);

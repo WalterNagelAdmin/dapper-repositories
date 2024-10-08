@@ -1,3 +1,5 @@
+// Ignore Spelling: Orm
+
 using Dapper;
 
 using System.Data;
@@ -18,7 +20,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual TEntity FindById(object id, IDbTransaction transaction)
+        public virtual TEntity FindById(object id, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectById(id, null);
             return Connection.QuerySingleOrDefault<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);
@@ -31,7 +33,7 @@ namespace MicroOrm.Dapper.Repositories
         }
 
         /// <inheritdoc />
-        public virtual Task<TEntity> FindByIdAsync(object id, IDbTransaction transaction)
+        public virtual Task<TEntity> FindByIdAsync(object id, IDbTransaction transaction = null)
         {
             var queryResult = SqlGenerator.GetSelectById(id, null);
             return Connection.QuerySingleOrDefaultAsync<TEntity>(queryResult.GetSql(), queryResult.Param, transaction);
