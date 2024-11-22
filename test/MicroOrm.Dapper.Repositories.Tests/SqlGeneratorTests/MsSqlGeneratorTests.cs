@@ -75,7 +75,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
                 isExceptions = true;
             }
 
-            Assert.True(isExceptions, "Contains no cast exception");
+            Assert.That(isExceptions, "Contains no cast exception", Is.True);
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
                 isExceptions = true;
             }
 
-            Assert.False(isExceptions, "Complicated_Collection_Contains MemberAccess exception");
+            Assert.That(isExceptions, "Complicated_Collection_Contains MemberAccess exception", Is.False);
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
                 userSqlGenerator.GetSelectAll(x => x.UpdatedAt >= today && x.UpdatedAt < tomorrow, null);
             }
 
-            Assert.False(false, "dual ExpressionNullablePerformance");
+            Assert.That(false, "dual ExpressionNullablePerformance", Is.False);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
             var sqlQuery = userSqlGenerator.GetSelectFirst(x => x.IsActive != true, null);
 
             var parameters = sqlQuery.Param as IDictionary<string, object>;
-            Assert.True(Convert.ToBoolean(parameters["IsActive_p0"]));
+            Assert.That(Convert.ToBoolean(parameters["IsActive_p0"]), Is.True);
 
             Assert.Equal(
                 "SELECT TOP 1 [DAB].[Phones].[Id], [DAB].[Phones].[Number], [DAB].[Phones].[IsActive], [DAB].[Phones].[Code] FROM [DAB].[Phones] WHERE [DAB].[Phones].[IsActive] != @IsActive_p0",
@@ -162,7 +162,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
             var sqlQuery = userSqlGenerator.GetSelectFirst(x => x.IsActive == false, null);
 
             var parameters = sqlQuery.Param as IDictionary<string, object>;
-            Assert.False(Convert.ToBoolean(parameters["IsActive_p0"]));
+            Assert.That(Convert.ToBoolean(parameters["IsActive_p0"]), Is.False);
 
             Assert.Equal(
                 "SELECT TOP 1 [DAB].[Phones].[Id], [DAB].[Phones].[Number], [DAB].[Phones].[IsActive], [DAB].[Phones].[Code] FROM [DAB].[Phones] WHERE [DAB].[Phones].[IsActive] = @IsActive_p0",
@@ -176,7 +176,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
             var sqlQuery = userSqlGenerator.GetSelectFirst(x => !x.IsActive, null);
 
             var parameters = sqlQuery.Param as IDictionary<string, object>;
-            Assert.False(Convert.ToBoolean(parameters["IsActive_p0"]));
+            Assert.That(Convert.ToBoolean(parameters["IsActive_p0"]), Is.False);
 
             Assert.Equal(
                 "SELECT TOP 1 [DAB].[Phones].[Id], [DAB].[Phones].[Number], [DAB].[Phones].[IsActive], [DAB].[Phones].[Code] FROM [DAB].[Phones] WHERE [DAB].[Phones].[IsActive] = @IsActive_p0",
@@ -190,7 +190,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
             var sqlQuery = userSqlGenerator.GetSelectFirst(x => x.IsActive, null);
 
             var parameters = sqlQuery.Param as IDictionary<string, object>;
-            Assert.True(Convert.ToBoolean(parameters["IsActive_p0"]));
+            Assert.That(Convert.ToBoolean(parameters["IsActive_p0"]), Is.True);
 
             Assert.Equal(
                 "SELECT TOP 1 [DAB].[Phones].[Id], [DAB].[Phones].[Number], [DAB].[Phones].[IsActive], [DAB].[Phones].[Code] FROM [DAB].[Phones] WHERE [DAB].[Phones].[IsActive] = @IsActive_p0",
@@ -665,9 +665,9 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
             Assert.Equal(sPrefix1 + "[DAB].[Phones].[Code] LIKE @Code_p0 OR [DAB].[Phones].[Code] NOT LIKE @Code_p1 OR [DAB].[Phones].[Code] LIKE @Code_p2", sqlQuery11.GetSql());
 
             var parameters11 = sqlQuery11.Param as IDictionary<string, object>;
-            Assert.True("123%" == parameters11["Code_p0"].ToString());
-            Assert.True("%456" == parameters11["Code_p1"].ToString());
-            Assert.True("%789%" == parameters11["Code_p2"].ToString());
+            Assert.That("123%" == parameters11["Code_p0"].ToString(), Is.True);
+            Assert.That("%456" == parameters11["Code_p1"].ToString(), Is.True);
+            Assert.That("%789%" == parameters11["Code_p2"].ToString(), Is.True);
 
             ISqlGenerator<User> userSqlGenerator2 = new SqlGenerator<User>(_sqlConnector, true);
             var sPrefix2 = "SELECT [Users].[Id], [Users].[Name], [Users].[AddressId], [Users].[PhoneId], [Users].[OfficePhoneId], [Users].[Deleted], [Users].[UpdatedAt], " +
@@ -681,8 +681,8 @@ namespace MicroOrm.Dapper.Repositories.Tests.SqlGeneratorTests
                 "([Phones_PhoneId].[Number] LIKE @PhoneNumber_p0 OR ([Users].[Name] NOT LIKE @Name_p1 AND [Phones_PhoneId].[IsActive] = @PhoneIsActive_p2)) AND [Users].[Deleted] != 1",
                 sqlQuery21.GetSql());
             var parameters21 = sqlQuery21.Param as IDictionary<string, object>;
-            Assert.True("123%" == parameters21["PhoneNumber_p0"].ToString());
-            Assert.True("%abc%" == parameters21["Name_p1"].ToString());
+            Assert.That("123%" == parameters21["PhoneNumber_p0"].ToString(), Is.True);
+            Assert.That("%abc%" == parameters21["Name_p1"].ToString(), Is.True);
         }
     }
 }

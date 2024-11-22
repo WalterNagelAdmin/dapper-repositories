@@ -80,7 +80,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void Find()
         {
             var user = _db.Users.Find(x => x.Id == 2);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName1", user.Name);
         }
 
@@ -88,7 +88,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void FindById()
         {
             var user = _db.Users.FindById(2);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName1", user.Name);
         }
 
@@ -96,7 +96,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async void FindByIdAsync()
         {
             var user = await _db.Users.FindByIdAsync(2);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName1", user.Name);
         }
 
@@ -104,7 +104,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async void FindByIdAsync_WithJoins_NotNull()
         {
             var user = await _db.Users.FindByIdAsync<Car, Phone, Address>(1, x => x.Cars, x => x.Phone, x => x.Addresses);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName0", user.Name);
 
             Assert.NotNull(user.Phone);
@@ -118,7 +118,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             var address = await _db.Address.FindByIdAsync<User>(1, x => x.Users);
             Assert.Equal("Street0", address.Street);
             Assert.NotNull(address.Users);
-            Assert.True(address.Users.Count == 10);
+            Assert.That(address.Users.Count == 10, Is.True);
         }
 
         [Fact]
@@ -129,7 +129,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             var address = addresses.Single();
             Assert.Equal("Street0", address.Street);
             Assert.NotNull(address.Users);
-            Assert.True(address.Users.Count == 10);
+            Assert.That(address.Users.Count == 10, Is.True);
         }
 
         [Fact]
@@ -139,27 +139,27 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             var address = addresses.First();
             Assert.Equal("Street0", address.Street);
             Assert.NotNull(address.Users);
-            Assert.True(address.Users.Count == 10);
+            Assert.That(address.Users.Count == 10, Is.True);
         }
 
         [Fact]
         protected void FindJoin_CollectionnRecord()
         {
             var user = _db.Users.Find<Car>(q => q.Id == 1, q => q.Cars);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName0", user.Name);
 
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
         }
 
         [Fact]
         public async void FindJoinAsync_CollectionnRecord()
         {
             var user = await _db.Users.FindAsync<Car>(q => q.Id == 1, q => q.Cars);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
             Assert.Equal("TestName0", user.Name);
 
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
         }
 
 
@@ -232,7 +232,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void FindAllJoin2Table()
         {
             var user = _db.Users.FindAll<Car, Address>(x => x.Id == 1, q => q.Cars, q => q.Addresses).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("Street0", user.Addresses.Street);
         }
@@ -241,7 +241,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async Task FindAllJoin2TableAsync()
         {
             var user = (await _db.Users.FindAllAsync<Car, Address>(x => x.Id == 1, q => q.Cars, q => q.Addresses)).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("Street0", user.Addresses.Street);
         }
@@ -250,7 +250,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void FindAllJoin3Table()
         {
             var user = _db.Users.FindAll<Car, Address, Phone>(x => x.Id == 1, q => q.Cars, q => q.Addresses, q => q.Phone).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("Street0", user.Addresses.Street);
             Assert.Equal("123", user.Phone.Number);
@@ -260,7 +260,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async Task FindAllJoin3TableAsync()
         {
             var user = (await _db.Users.FindAllAsync<Car, Address, Phone>(x => x.Id == 1, q => q.Cars, q => q.Addresses, q => q.Phone)).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("Street0", user.Addresses.Street);
             Assert.Equal("123", user.Phone.Number);
@@ -270,7 +270,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void FindAllJoinSameTableTwice()
         {
             var user = _db.Users.FindAll<Phone, Car, Phone>(x => x.Id == 1, q => q.OfficePhone, q => q.Cars, q => q.Phone).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("333", user.OfficePhone.Number);
             Assert.Equal("123", user.Phone.Number);
@@ -280,7 +280,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async void FindAllJoinSameTableTwiceAsync()
         {
             var user = (await _db.Users.FindAllAsync<Phone, Car, Phone>(x => x.Id == 1, q => q.OfficePhone, q => q.Cars, q => q.Phone)).First();
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
             Assert.Equal("333", user.OfficePhone.Number);
             Assert.Equal("123", user.Phone.Number);
@@ -293,7 +293,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             const string name = "TestName3";
             {
                 var user = await _db.Users.FindAsync(x => x.Id == id);
-                Assert.False(user.Deleted);
+                Assert.That(user.Deleted, Is.False);
                 Assert.Equal(name, user.Name);
             }
             {
@@ -308,7 +308,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public void FindJoin_User()
         {
             var user = _db.Users.Find<Car>(x => x.Id == 1, q => q.Cars);
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
         }
 
@@ -325,7 +325,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
         public async Task FindJoinAsync_User()
         {
             var user = await _db.Users.FindAsync<Car>(x => x.Id == 1, q => q.Cars);
-            Assert.True(user.Cars.Count == 2);
+            Assert.That(user.Cars.Count == 2, Is.True);
             Assert.Equal("TestCar0", user.Cars.First().Name);
         }
 
@@ -347,14 +347,14 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             };
 
             var insert = _db.Users.Insert(user);
-            Assert.True(insert);
+            Assert.That(insert, Is.True);
 
             var userFromDb = _db.Users.Find(q => q.Id == user.Id);
             Assert.Equal(user.Name, userFromDb.Name);
             user.Name = "Sergey1";
 
             var update = _db.Users.Update(user);
-            Assert.True(update);
+            Assert.That(update, Is.True);
             userFromDb = _db.Users.Find(q => q.Id == user.Id);
             Assert.Equal("Sergey1", userFromDb.Name);
         }
@@ -368,14 +368,14 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             };
 
             var insert = await _db.Users.InsertAsync(user);
-            Assert.True(insert);
+            Assert.That(insert, Is.True);
 
             var userFromDb = await _db.Users.FindAsync(q => q.Id == user.Id);
             Assert.Equal(user.Name, userFromDb.Name);
             user.Name = "Sergey1";
 
             var update = await _db.Users.UpdateAsync(user);
-            Assert.True(update);
+            Assert.That(update, Is.True);
             userFromDb = await _db.Users.FindAsync(q => q.Id == user.Id);
             Assert.Equal("Sergey1", userFromDb.Name);
         }
@@ -393,7 +393,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             };
 
             var insert = _db.Cars.Insert(car);
-            Assert.True(insert);
+            Assert.That(insert, Is.True);
             var carFromDb = _db.Cars.Find(x => x.Id == car.Id);
             var guid2 = new Guid(carFromDb.Data);
             Assert.Equal(guid, guid2);
@@ -412,7 +412,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             };
 
             var insert = await _db.Cars.InsertAsync(car);
-            Assert.True(insert);
+            Assert.That(insert, Is.True);
             var carFromDb = await _db.Cars.FindAsync(x => x.Id == car.Id);
             var guid2 = new Guid(carFromDb.Data);
             Assert.Equal(guid, guid2);
@@ -424,10 +424,10 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             const int id = 10;
 
             var user = _db.Users.Find(x => x.Id == id);
-            Assert.False(user.Deleted);
+            Assert.That(user.Deleted, Is.False);
 
             var deleted = await _db.Users.DeleteAsync(user);
-            Assert.True(deleted);
+            Assert.That(deleted, Is.True);
 
             var deletedUser = _db.Users.Find(x => x.Id == id);
             Assert.Null(deletedUser);
@@ -446,10 +446,10 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             var insert = await _db.Cars.InsertAsync(newCar);
 
             var car = _db.Cars.Find(x => x.Id == newCar.Id);
-            Assert.False(car.Status == StatusCar.Deleted);
+            Assert.That(car.Status == StatusCar.Deleted, Is.False);
 
             var deleted = await _db.Cars.DeleteAsync(car);
-            Assert.True(deleted);
+            Assert.That(deleted, Is.True);
 
             var deletedCar = _db.Cars.Find(x => x.Id == newCar.Id);
             Assert.Null(deletedCar);
@@ -648,7 +648,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
 
             bool result = _db.Users.BulkUpdate(new List<User> { insertedUser1, insertedUser2 });
 
-            Assert.True(result);
+            Assert.That(result, Is.True);
 
             var newUser1 = _db.Users.FindById(user1.Id);
             var newUser2 = _db.Users.FindById(user2.Id);
@@ -686,7 +686,7 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
 
             bool result = await _db.Users.BulkUpdateAsync(new List<User> { insertedUser1, insertedUser2 });
 
-            Assert.True(result);
+            Assert.That(result, Is.True);
 
             var newUser1 = await _db.Users.FindByIdAsync(user1.Id);
             var newUser2 = await _db.Users.FindByIdAsync(user2.Id);
@@ -790,16 +790,16 @@ namespace MicroOrm.Dapper.Repositories.Tests.RepositoriesTests
             Assert.Equal("TestName1", users1.First().Name);
 
             var users2 = (await _db.Users.FindAllAsync(x => x.Name.Contains("Name"))).ToArray();
-            Assert.True(users2.Length > 0);
+            Assert.That(users2.Length > 0, Is.True);
 
             var users3 = (await _db.Users.FindAllAsync(x => x.Name.StartsWith("Test"))).ToArray();
-            Assert.True(users3.Length > 0);
+            Assert.That(users3.Length > 0, Is.True);
 
             var users4 = (await _db.Users.FindAllAsync(x => !x.Name.StartsWith("est"))).ToArray();
-            Assert.True(users4.Length > 0);
+            Assert.That(users4.Length > 0, Is.True);
 
             var users5 = (await _db.Users.FindAllAsync(x => x.Name.StartsWith("est"))).ToArray();
-            Assert.True(users5.Length <= 0);
+            Assert.That(users5.Length <= 0, Is.True);
         }
     }
 }
